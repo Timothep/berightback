@@ -1,13 +1,44 @@
 <head>
-    <script type="text/javascript" src="getGifs.js"></script>
+    <style>
+        body {background-color: black;}
+        div.main {text-align: center; }
+        h1   {color: white; font-weight: bold; font-size: large;}
+        p    {color: white;}
+        p a { color: lightgrey; }
+    </style>
+    <script>
+        function getGif(){
+            var searchQuery = document.getElementById("searchField").value;
+            if (searchQuery == "")
+                searchQuery = "Be right back";
+            
+            var request = new XMLHttpRequest();
+            request.open('GET', "http://api.giphy.com/v1/gifs/search?q=".concat(searchQuery.replace(" ", "+"), "&api_key=118VvChonMShXDTlwIFxXcFRvijLywXJ&limit=10"), true);
+            request.send();
+            request.onreadystatechange = function () {
+            if (request.readyState === 4 && request.status === 200) {
+                var type = request.getResponseHeader('Content-Type');
+                if (type.indexOf("text") !== 1) {
+                    PaintRandomImage(JSON.parse(request.responseText));
+                }}
+            }
+        }
+
+        function PaintRandomImage(jsonPayload){
+            var index = Math.floor((Math.random() * jsonPayload.data.length));
+            var imgURL = jsonPayload.data[index].images.original.url;
+            document.getElementById("ImagePlaceholder").innerHTML = "<img src=\"".concat(imgURL, "\">");
+        }
+    </script>
 </head>
-<body style="background: black;">
-    <div style="text-align: center;">
+<body>
+    <div class="main">
         <p>
+            <h1>Tired of waiting already?</h1>
             <input type="text" id="searchField" placeholder="Be right back">
             <button type="submit" value="Submit" onclick="getGif()">Find gif</button></br></br>
         </p>
         <p id="ImagePlaceholder"></p>
-        <p style="color:white;">Made with ❤️ by <a href="https://timbourguignon.fr">@timothep</a></p>
+        <p class="credits">Made with ❤️ by <a href="https://timbourguignon.fr">@timothep</a>, powered by <a href="https://giphy.com">Giphy</a></p>
     </div>
 </body>
