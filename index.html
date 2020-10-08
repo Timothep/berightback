@@ -16,7 +16,7 @@
                 searchQuery = "Be right back";
             
             var request = new XMLHttpRequest();
-            request.open('GET', "http://api.giphy.com/v1/gifs/search?q=".concat(searchQuery.replace(" ", "+"), "&api_key=118VvChonMShXDTlwIFxXcFRvijLywXJ&limit=10"), true);
+            request.open('GET', "https://api.giphy.com/v1/gifs/search?q=".concat(searchQuery.replace(" ", "+"), "&api_key=118VvChonMShXDTlwIFxXcFRvijLywXJ&limit=10"), true);
             request.send();
             request.onreadystatechange = function () {
             if (request.readyState === 4 && request.status === 200) {
